@@ -16,6 +16,7 @@ import {
   CircleHelp,
   Heart,
   House,
+  Route,
   Leaf,
   RotateCcw,
   ShieldCheck,
@@ -24,12 +25,14 @@ import {
 import { Button } from "./ui/button";
 import { Dialog } from "./ui/dialog";
 import { Dashboard } from "./dashboard";
+import { JourneyView } from "./journey-view";
 import { PracticeView, ProgressView, RevisionView } from "./learning-views";
 import { QuestionPlayer } from "./question-player";
 import { useLearning } from "@/lib/store";
 import { makeSession } from "@/lib/learning";
-type Tab = "today" | "practice" | "revision" | "progress";
+type Tab = "path" | "today" | "practice" | "revision" | "progress";
 const nav = [
+  { id: "path" as const, label: "My path", icon: Route },
   { id: "today" as const, label: "My day", icon: House },
   { id: "practice" as const, label: "Practice", icon: BookOpen },
   { id: "revision" as const, label: "Revision", icon: RotateCcw },
@@ -38,7 +41,7 @@ const nav = [
 export function LearningApp() {
   const reducedMotion = useReducedMotion();
   const { state, update, storageWarning } = useLearning();
-  const [tab, setTab] = useState<Tab>("today");
+  const [tab, setTab] = useState<Tab>("path");
   const [quizOpen, setQuizOpen] = useState(false);
   const [settings, setSettings] = useState(false);
   const [help, setHelp] = useState(false);
@@ -96,7 +99,7 @@ export function LearningApp() {
         <aside className="sidebar">
           <button
             className="brand"
-            onClick={() => navigate("today")}
+            onClick={() => navigate("path")}
             aria-label="NPrep Daily home"
           >
             <span className="brand-mark">
@@ -216,6 +219,12 @@ export function LearningApp() {
                 exit={{ opacity: reducedMotion ? 1 : 0 }}
                 transition={{ duration: reducedMotion ? 0 : 0.12 }}
               >
+                {tab === "path" && (
+                  <JourneyView
+                    goRevision={() => navigate("revision")}
+                    goPractice={() => navigate("practice")}
+                  />
+                )}
                 {tab === "today" && (
                   <Dashboard
                     state={state}

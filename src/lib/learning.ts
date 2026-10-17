@@ -35,6 +35,22 @@ export const stateSchema = z.object({
     }),
   ),
   session: sessionSchema.nullable(),
+  journey: z
+    .object({
+      unit: z.enum(["anatomy", "blood", "respiration"]).default("anatomy"),
+      completed: z.array(z.string()).default([]),
+      run: z
+        .object({
+          id: z.string(),
+          stageId: z.string(),
+          step: z.number().int().min(0),
+          answers: z.array(attemptSchema),
+          finished: z.boolean(),
+        })
+        .nullable()
+        .default(null),
+    })
+    .default({ unit: "anatomy", completed: [], run: null }),
 });
 export type LearningState = z.infer<typeof stateSchema>;
 export const initialState: LearningState = {
@@ -45,6 +61,7 @@ export const initialState: LearningState = {
   bookmarks: [],
   reviews: {},
   session: null,
+  journey: { unit: "anatomy", completed: [], run: null },
 };
 export function dayKey(date: Date | string = new Date()) {
   return new Intl.DateTimeFormat("en-CA", {

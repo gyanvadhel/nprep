@@ -5,6 +5,7 @@ import "@fontsource/dm-sans/600.css";
 import "@fontsource/dm-sans/700.css";
 import "@fontsource/dm-serif-display/400.css";
 import "./globals.css";
+import "./journey.css";
 export const metadata: Metadata = {
   title: "NPrep Daily — A little better, every day",
   description:

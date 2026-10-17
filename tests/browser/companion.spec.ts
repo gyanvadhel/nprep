@@ -1,13 +1,22 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import fs from "node:fs";
+
+async function myDay(page: Page) {
+  await page
+    .getByRole("navigation")
+    .filter({ visible: true })
+    .getByRole("button", { name: "My day", exact: true })
+    .click();
+}
 
 test("practice survives reload and updates revision, bookmarks, and progress", async ({
   page,
 }, testInfo) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto("/");
+  await page.goto("./");
+  await myDay(page);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "A little better, every day.",
   );
@@ -34,6 +43,7 @@ test("practice survives reload and updates revision, bookmarks, and progress", a
     fullPage: true,
   });
   await page.reload();
+  await myDay(page);
   await page.getByRole("button", { name: "Continue my session" }).click();
   await expect(page.getByText("A good moment to learn.")).toBeVisible();
   await page.getByRole("button", { name: "Next question" }).click();
@@ -87,12 +97,14 @@ test("practice survives reload and updates revision, bookmarks, and progress", a
 test("filters, profile preferences, and session replacement work", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("./");
+  await myDay(page);
   await page.getByRole("button", { name: "Personalise your learning" }).click();
   await page.getByLabel("Your first name").fill("Asha");
   await page.getByLabel("Your daily question goal").selectOption("3");
   await page.getByRole("button", { name: "Save my preferences" }).click();
   await page.reload();
+  await myDay(page);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "A little progress, Asha.",
   );
@@ -128,7 +140,8 @@ test("filters, profile preferences, and session replacement work", async ({
 test("screens fit the viewport and pass automated accessibility checks", async ({
   page,
 }, testInfo) => {
-  await page.goto("/");
+  await page.goto("./");
+  await myDay(page);
   async function audit(name: string) {
     await expect(page.locator(".page-transition")).toHaveCSS("opacity", "1");
     if (name === "progress") await expect(page.locator(".chart")).toBeVisible();
@@ -173,7 +186,8 @@ test("unavailable storage leaves practice usable and reports its limitation", as
       throw new DOMException("Storage unavailable", "QuotaExceededError");
     };
   });
-  await page.goto("/");
+  await page.goto("./");
+  await myDay(page);
   await page.getByRole("button", { name: "Let’s practise" }).click();
   await page.getByRole("radio").nth(1).check();
   await page.getByRole("button", { name: "Check answer" }).click();
@@ -190,7 +204,8 @@ test("daily dates follow the browser clock without hydration errors", async ({
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.clock.install({ time: new Date("2026-12-01T18:29:50Z") });
-  await page.goto("/");
+  await page.goto("./");
+  await myDay(page);
   await expect(page.locator(".day-circle.today")).toHaveAttribute(
     "aria-label",
     "2026-12-01, today",

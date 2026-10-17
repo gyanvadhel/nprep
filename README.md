@@ -23,6 +23,10 @@ This deployment contains the sample question bank and browser-local progress des
 
 ## Implemented
 
+- A visual learning path for Anatomy, Blood, and Respiration, with five stages per unit: learning cards, matching, practice, recall, and a checkpoint.
+- Sequential stage unlocking, resumable lessons, freely replayable completed stages, unit badges, and 20 study points per unique completed stage.
+- Checkpoints require two of three correct answers; retries are unlimited. Points and badges describe sample-unit activity, not exam readiness.
+- Path question attempts feed the existing revision and progress systems without replacing an unfinished free-practice session. Existing saved data receives path defaults automatically.
 - Desktop dashboard and mobile bottom navigation.
 - Daily practice, topic sessions, searchable sample question library.
 - Confidence ratings, explanations with source links, bookmarks.
@@ -34,7 +38,7 @@ This deployment contains the sample question bank and browser-local progress des
 
 ## Content and data boundaries
 
-The nine original sample questions reference OpenStax Anatomy and Physiology 2e. They are labelled preview material and have not been reviewed by NPrep faculty. This is not an official NORCET question bank or a readiness predictor.
+The nine original sample questions reference OpenStax Anatomy and Physiology 2e. Learning cards and matching activities reinforce the same concepts; practice and checkpoints reuse these questions. They are labelled preview material and have not been reviewed by NPrep faculty. This is not an official NORCET question bank or a readiness predictor.
 
 There is no backend, login, cross-device sync, or production question feed yet. Learning data is stored in this browser under `nprep.learning.v1`. Clearing site data removes it. Storage failures are surfaced in the interface. Full offline installation/download support is not implemented.
 
@@ -53,7 +57,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Browser tests expect the app running on http://127.0.0.1:3000. Tests cover desktop and mobile journeys, resume, scoring, revision, bookmarks, filters, preferences, storage failures, and automated accessibility. Screenshots and accessibility reports are saved in `artifacts/`.
+Browser tests expect the app running on http://127.0.0.1:3000. Set `PLAYWRIGHT_BASE_URL` to test another deployment (include its trailing slash and base path, such as `https://gyanvadhel.github.io/nprep/`). Tests cover desktop and mobile journeys, stage unlocking, checkpoint retries, reward deduplication, resume, scoring, revision, bookmarks, filters, preferences, storage failures, and automated accessibility. Screenshots and accessibility reports are saved in `artifacts/`.
 
 ## Next integration work
 
