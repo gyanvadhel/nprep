@@ -23,8 +23,9 @@ export function Dialog({
   return (
     <Primitive.Root open={open} onOpenChange={onOpenChange}>
       <Primitive.Portal>
-        <Primitive.Overlay className="dialog-overlay" />
+        <Primitive.Overlay className="dialog-overlay" data-lenis-prevent />
         <Primitive.Content
+          data-lenis-prevent
           className={cn("dialog-content", className)}
           onOpenAutoFocus={(e) => {
             e.preventDefault();

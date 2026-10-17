@@ -1,0 +1,177 @@
+.nprep-spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.nprep-spotlight-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  z-index: -1;
+  background: radial-gradient(
+    300px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    rgba(132, 160, 94, 0.18),
+    transparent 72%
+  );
+  transition: opacity 0.25s;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .nprep-spotlight:hover > .nprep-spotlight-glow {
+    opacity: 1;
+  }
+}
+.count-up {
+  font-variant-numeric: tabular-nums;
+}
+.visual-lab-card {
+  padding: 22px;
+  background: #eaf0e4;
+  border: 1px solid #cddac0;
+  border-radius: 6px;
+}
+.visual-lab-card .journey-eyebrow {
+  font-size: 8px;
+  margin: 14px 0 8px;
+}
+.visual-lab-card h3 {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+  font-size: 24px;
+}
+.visual-lab-card > p:not(.journey-eyebrow) {
+  font-size: 12px;
+  color: #586d4a;
+  line-height: 1.8;
+  margin: 9px 0 15px;
+}
+.visual-lab-card > .button {
+  width: 100%;
+  justify-content: space-between;
+}
+.visual-lab-card .journey-card-icon {
+  background: #dbe6ce;
+  color: #4c673a;
+}
+.plane-switch {
+  border: 0;
+  padding: 0;
+  margin: 22px 0 17px;
+  display: flex;
+  gap: 8px;
+}
+.plane-switch legend {
+  font-size: 12px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.plane-switch label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #d1dbc5;
+  border-radius: 4px;
+  background: #fff;
+  padding: 10px 7px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.plane-switch label:has(input:checked) {
+  background: #e7eedf;
+  border-color: #849b6b;
+}
+.plane-switch input {
+  accent-color: #315642;
+}
+.plane-stage {
+  position: relative;
+  height: 310px;
+  border: 1px solid #dde4d2;
+  border-radius: 5px;
+  background: #f2f4eb;
+  overflow: hidden;
+}
+.plane-canvas {
+  position: absolute;
+  inset: 0;
+}
+.plane-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+.plane-canvas canvas:active {
+  cursor: grabbing;
+}
+.plane-flat-diagram {
+  display: block;
+  width: 100%;
+  height: 285px;
+}
+.plane-stage-label {
+  position: absolute;
+  bottom: 9px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 8px;
+  letter-spacing: 1.1px;
+  color: #56694a;
+  pointer-events: none;
+}
+.plane-description {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #4f6444;
+  margin: 16px 0;
+  min-height: 47px;
+}
+.plane-description strong {
+  font-weight: 600;
+}
+.plane-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.plane-controls .button {
+  font-size: 11px;
+  min-height: 40px;
+}
+.plane-hint {
+  color: #5d6b52;
+  font-size: 11px;
+  margin-top: 14px;
+  line-height: 1.7;
+}
+@media (max-width: 760px) {
+  .plane-stage {
+    height: 275px;
+  }
+  .plane-flat-diagram {
+    height: 250px;
+  }
+  .plane-switch {
+    gap: 5px;
+  }
+  .plane-switch label {
+    font-size: 10px;
+    padding: 9px 5px;
+    gap: 4px;
+  }
+  .plane-controls .button {
+    padding-left: 9px;
+    padding-right: 9px;
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nprep-spotlight-glow {
+    display: none;
+    transition: none;
+  }
+}

@@ -37,6 +37,9 @@ This deployment contains the sample question bank and browser-local progress des
 - Progress and weekly activity derived from actual attempts, using India dates.
 - Local profile and daily goals; keyboard-accessible dialogs and reduced-motion support.
 - Locally hosted fonts; no third-party font requests.
+- GSAP chapter entrances and scroll-triggered lesson reveals, plus Lenis smooth wheel scrolling on desktop. Touch input remains native, modal scrolling is isolated, and reduced-motion preferences are honored, including changes during a visit.
+- Adapted React Bits SpotlightCard and CountUp effects for pointer lighting and study-point updates. Source attribution and the upstream license are preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+- An on-demand Three.js body-plane explorer in the Anatomy visual lab, with drag and button rotation, three plane selections, and a usable SVG fallback when WebGL is unavailable. The simplified schematic is not a clinical model.
 
 ## Content and data boundaries
 
@@ -46,7 +49,9 @@ There is no backend, login, cross-device sync, or production question feed yet. 
 
 ## Stack
 
-Next.js App Router, React, TypeScript, Tailwind CSS, custom shadcn-style components using Radix, Motion, Lucide, Recharts, Zod. Server-data caching and an IndexedDB/service-worker layer can be added when APIs and offline scope are defined.
+Next.js App Router, React, TypeScript, Tailwind CSS, custom shadcn-style components using Radix, GSAP + @gsap/react, Lenis, adapted React Bits components, Three.js, Motion, Lucide, Recharts, Zod. Server-data caching and an IndexedDB/service-worker layer can be added when APIs and offline scope are defined.
+
+The Three.js bundle is requested only when the visual lab opens. Its renderer draws on interaction and resize instead of running an idle animation loop; closing the explorer disposes GPU resources. Decorative motion never gates lesson completion or hides study content.
 
 ## Checks
 

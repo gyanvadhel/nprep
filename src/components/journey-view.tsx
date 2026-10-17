@@ -16,6 +16,7 @@ import {
   Star,
   Target,
   Trophy,
+  Box,
 } from "lucide-react";
 import { useLearning } from "@/lib/store";
 import {
@@ -32,6 +33,10 @@ import {
 } from "@/lib/journey";
 import { Button } from "./ui/button";
 import { Dialog } from "./ui/dialog";
+import { SpotlightCard } from "./react-bits/spotlight-card";
+import { CountUp } from "./react-bits/count-up";
+import { useChapterMotion } from "./visuals/use-chapter-motion";
+import { PlaneExplorer } from "./visuals/plane-explorer";
 
 const icons = {
   learn: BookOpen,
@@ -91,8 +96,10 @@ export function JourneyView({
 }) {
   const { state, update } = useLearning();
   const [open, setOpen] = useState(false);
+  const [explorerOpen, setExplorerOpen] = useState(false);
   const [pending, setPending] = useState<string | null>(null);
   const unit = units.find((u) => u.id === state.journey.unit) ?? units[0];
+  const motionScope = useChapterMotion(unit.id);
   const completed = stageKinds.filter((k) =>
     state.journey.completed.includes(unit.id + ":" + k),
   ).length;
@@ -114,7 +121,7 @@ export function JourneyView({
     else begin(id);
   }
   return (
-    <>
+    <div ref={motionScope} className="journey-experience">
       <div className="journey-heading">
         <div>
           <p className="journey-eyebrow">
@@ -125,7 +132,9 @@ export function JourneyView({
         </div>
         <div className="journey-points">
           <Star size={19} fill="currentColor" />
-          <strong>{total * 20}</strong>
+          <strong>
+            <CountUp to={total * 20} />
+          </strong>
           <span>study points</span>
         </div>
       </div>
@@ -283,7 +292,7 @@ export function JourneyView({
           </p>
         </div>
         <aside className="journey-aside">
-          <section className="journey-next">
+          <SpotlightCard className="journey-next">
             <span className="journey-card-icon">
               <Flag size={22} />
             </span>
@@ -309,7 +318,23 @@ export function JourneyView({
             <span className="journey-time-note">
               <Clock3 size={13} /> Just a few minutes for yourself
             </span>
-          </section>
+          </SpotlightCard>
+          {unit.id === "anatomy" && (
+            <SpotlightCard className="visual-lab-card">
+              <span className="journey-card-icon">
+                <Box size={22} />
+              </span>
+              <p className="journey-eyebrow">THE VISUAL LAB</p>
+              <h3>Give the idea a dimension.</h3>
+              <p>
+                Turn a simple body model and see how the three anatomical planes
+                divide it.
+              </p>
+              <Button variant="outline" onClick={() => setExplorerOpen(true)}>
+                Explore body planes <ArrowRight size={16} />
+              </Button>
+            </SpotlightCard>
+          )}
           {activeRun && !activeRun.finished && activeRun.stageId !== nextId && (
             <section className="journey-resume">
               <strong>You have a stage in progress</strong>
@@ -382,6 +407,15 @@ export function JourneyView({
       </div>
       <JourneyPlayer open={open} onOpenChange={setOpen} />
       <Dialog
+        open={explorerOpen}
+        onOpenChange={setExplorerOpen}
+        title="A different way to see it."
+        description="Explore the three anatomical planes. This is a simplified learning diagram."
+        className="journey-dialog"
+      >
+        {explorerOpen && <PlaneExplorer />}
+      </Dialog>
+      <Dialog
         open={!!pending}
         onOpenChange={(o) => {
           if (!o) setPending(null);
@@ -409,7 +443,7 @@ export function JourneyView({
           </Button>
         </div>
       </Dialog>
-    </>
+    </div>
   );
 }
 

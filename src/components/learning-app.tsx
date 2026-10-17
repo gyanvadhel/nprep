@@ -30,6 +30,7 @@ import { PracticeView, ProgressView, RevisionView } from "./learning-views";
 import { QuestionPlayer } from "./question-player";
 import { useLearning } from "@/lib/store";
 import { makeSession } from "@/lib/learning";
+import { ScrollExperience, resetPageScroll } from "./visuals/scroll-experience";
 type Tab = "path" | "today" | "practice" | "revision" | "progress";
 const nav = [
   { id: "path" as const, label: "My path", icon: Route },
@@ -54,7 +55,7 @@ export function LearningApp() {
   function navigate(next: Tab) {
     setTab(next);
     setNotice("");
-    window.scrollTo({ top: 0, behavior: "instant" });
+    resetPageScroll();
     requestAnimationFrame(() => main.current?.focus({ preventScroll: true }));
   }
   function begin(ids: string[], label: string) {
@@ -92,11 +93,12 @@ export function LearningApp() {
   }
   return (
     <MotionConfig reducedMotion="user">
+      <ScrollExperience />
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
       <div className="app-shell">
-        <aside className="sidebar">
+        <aside className="sidebar" data-lenis-prevent>
           <button
             className="brand"
             onClick={() => navigate("path")}
