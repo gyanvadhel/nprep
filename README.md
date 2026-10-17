@@ -2,6 +2,8 @@
 
 A responsive, free study-companion prototype for NORCET aspirants.
 
+The visual direction is an NPrep study journal: chapter covers, numbered lesson cards, warm paper tones, forest-green accents, and restrained motion. Staged learning and rewards support this identity; future screens should follow this direction rather than reproduce another learning app's interface.
+
 ## Run locally
 
 From the repository directory:
@@ -23,7 +25,7 @@ This deployment contains the sample question bank and browser-local progress des
 
 ## Implemented
 
-- A visual learning path for Anatomy, Blood, and Respiration, with five stages per unit: learning cards, matching, practice, recall, and a checkpoint.
+- An NPrep study-journal layout for Anatomy, Blood, and Respiration, with numbered lesson cards and five stages per unit: learning cards, matching, practice, recall, and a checkpoint.
 - Sequential stage unlocking, resumable lessons, freely replayable completed stages, unit badges, and 20 study points per unique completed stage.
 - Checkpoints require two of three correct answers; retries are unlimited. Points and badges describe sample-unit activity, not exam readiness.
 - Path question attempts feed the existing revision and progress systems without replacing an unfinished free-practice session. Existing saved data receives path defaults automatically.

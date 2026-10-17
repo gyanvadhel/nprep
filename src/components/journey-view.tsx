@@ -41,56 +41,43 @@ const icons = {
   checkpoint: Flag,
 };
 
-function PathGarden() {
+function StudyNotes() {
   return (
     <svg
-      className="path-garden"
+      className="chapter-art"
       viewBox="0 0 250 180"
       fill="none"
       aria-hidden="true"
     >
-      <ellipse cx="131" cy="151" rx="101" ry="17" fill="#264e3b" />
-      <path d="M39 146 Q60 70 104 137 Q159 33 217 146" fill="#698b62" />
-      <path
-        d="M63 150 Q130 138 104 112 Q78 87 167 71"
-        stroke="#e8e6bb"
-        strokeWidth="14"
-        strokeLinecap="round"
-      />
-      <path
-        d="M166 72V28"
-        stroke="#f8f4d7"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-      <path d="M168 28H203L192 40L203 51H168" fill="#edc56e" />
-      <circle
-        cx="105"
-        cy="113"
-        r="9"
-        fill="#edc56e"
-        stroke="#315642"
-        strokeWidth="4"
-      />
-      <circle cx="65" cy="149" r="7" fill="#f8f4d7" />
-      <path
-        d="M42 105V76M42 91Q19 92 23 72Q44 72 42 91M43 85Q43 64 61 64Q67 84 43 85"
-        stroke="#b9d0a1"
-        strokeWidth="3"
-        fill="#b9d0a1"
-      />
-      <path
-        d="M214 125V102M214 112Q195 112 197 97Q216 97 214 112"
-        stroke="#b9d0a1"
-        strokeWidth="3"
-        fill="#b9d0a1"
-      />
-      <path
-        d="M92 32V44M86 38H98M217 70V82M211 76H223"
-        stroke="#edc56e"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <path d="M22 153H230" stroke="#d6d6c7" />
+      <g transform="rotate(-9 125 90)">
+        <rect x="63" y="25" width="139" height="132" rx="5" fill="#d3dfca" />
+        <path d="M80 25V157" stroke="#afc19f" />
+      </g>
+      <g transform="rotate(6 125 90)">
+        <rect
+          x="45"
+          y="20"
+          width="139"
+          height="132"
+          rx="5"
+          fill="#fffdf6"
+          stroke="#d7d8c9"
+        />
+        <path d="M66 20V152" stroke="#e8d5c4" />
+        <path d="M78 44H157M78 55H131" stroke="#c3cbb6" strokeWidth="3" />
+        <rect x="78" y="75" width="33" height="33" rx="3" fill="#e9eee0" />
+        <path d="M88 91L94 97L104 84" stroke="#59734d" strokeWidth="2.5" />
+        <path
+          d="M123 82H158M123 93H149M78 124H158M78 134H136"
+          stroke="#c3cbb6"
+          strokeWidth="3"
+        />
+        <path d="M150 20H165V38L157.5 33L150 38V20Z" fill="#b37759" />
+      </g>
+      <path d="M199 64L213 67L190 143L176 139L199 64Z" fill="#315642" />
+      <path d="M176 139L180 153L190 143" fill="#c99570" />
+      <path d="M180 153L179 147L184 149Z" fill="#315642" />
     </svg>
   );
 }
@@ -171,7 +158,7 @@ export function JourneyView({
           <section className="unit-banner" aria-labelledby="unit-title">
             <div>
               <span className="unit-kicker">
-                UNIT 0{units.indexOf(unit) + 1} <span>·</span> THE FOUNDATIONS
+                UNIT 0{units.indexOf(unit) + 1} <span>·</span> NPREP STUDY NOTES
               </span>
               <h2 id="unit-title">{unit.title}</h2>
               <p>{unit.subtitle}</p>
@@ -184,110 +171,91 @@ export function JourneyView({
                 <span>{completed} / 5 stages</span>
               </div>
             </div>
-            <PathGarden />
+            <StudyNotes />
           </section>
           <section
-            className="lesson-map"
-            aria-label={unit.topic + " learning path"}
+            className="chapter-outline"
+            aria-label={unit.topic + " chapter outline"}
           >
-            <div className="map-caption">
-              <span>
-                <span className="tiny-dot" /> YOUR LEARNING PATH
-              </span>
-              <span>At your pace. Always.</span>
+            <div className="chapter-caption">
+              <span>IN THIS CHAPTER</span>
+              <span>Five focused sessions · one connected topic</span>
             </div>
-            <div className="path-track">
-              <svg
-                className="path-connector"
-                viewBox="0 0 240 590"
-                preserveAspectRatio="none"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M44 60 C44 120 92 120 92 180 S140 240 140 300 S92 360 92 420 S44 480 44 540"
-                  stroke="#e3e9dc"
-                  strokeWidth="9"
-                  strokeLinecap="round"
-                  strokeDasharray="3 17"
-                />
-              </svg>
-              <ol className="stage-list">
-                {stageKinds.map((kind, index) => {
-                  const id = unit.id + ":" + kind;
-                  const done = state.journey.completed.includes(id);
-                  const available = stageAvailable(state, id);
-                  const current = !done && available;
-                  const Icon = done
-                    ? Check
-                    : available
-                      ? icons[kind]
-                      : LockKeyhole;
-                  const info = stageInfo[kind];
-                  return (
-                    <li
-                      key={id}
-                      className={"stage-row stage-position-" + index}
+            <ol className="chapter-lessons">
+              {stageKinds.map((kind, index) => {
+                const id = unit.id + ":" + kind;
+                const done = state.journey.completed.includes(id);
+                const available = stageAvailable(state, id);
+                const current = !done && available;
+                const Icon = icons[kind];
+                const info = stageInfo[kind];
+                return (
+                  <li key={id} className="lesson-entry">
+                    <button
+                      className={
+                        "lesson-entry-button " +
+                        (done
+                          ? "is-done"
+                          : current
+                            ? "is-current"
+                            : "is-upcoming")
+                      }
+                      disabled={!available}
+                      onClick={() => start(id)}
+                      aria-label={
+                        info.type +
+                        ": " +
+                        info.label +
+                        (done
+                          ? ", completed, replay"
+                          : available
+                            ? ""
+                            : ", complete the previous stage to unlock")
+                      }
                     >
-                      <button
-                        className={
-                          "stage-button " +
-                          (done
-                            ? "is-done"
-                            : current
-                              ? "is-current"
-                              : "is-locked")
-                        }
-                        disabled={!available}
-                        onClick={() => start(id)}
-                        aria-label={
-                          info.type +
-                          ": " +
-                          info.label +
-                          (done
-                            ? ", completed, replay"
-                            : available
-                              ? ""
-                              : ", complete the previous stage to unlock")
-                        }
-                      >
-                        <span className="stage-node">
-                          <Icon size={29} strokeWidth={2.2} />
-                          {kind === "checkpoint" && (
-                            <span className="node-spark">✦</span>
-                          )}
-                        </span>
-                        <span className="stage-copy">
-                          <span className="stage-type">
-                            {done
-                              ? "COMPLETED · REPLAY"
-                              : current
-                                ? "YOUR NEXT STEP"
-                                : "STAGE 0" + (index + 1) + " · " + info.type}
-                          </span>
-                          <strong>{info.label}</strong>
-                          <span className="stage-duration">
-                            {current && (
-                              <span>{info.type.toLowerCase()} · </span>
-                            )}
-                            <Clock3 size={12} /> {info.minutes}
-                            {current && <ChevronRight size={15} />}
+                      <span className="lesson-index" aria-hidden="true">
+                        0{index + 1}
+                      </span>
+                      <span className="lesson-summary">
+                        <span className="lesson-category">
+                          <Icon size={14} />
+                          {info.type}
+                          <span className="lesson-time">
+                            <Clock3 size={12} />
+                            {info.minutes}
                           </span>
                         </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ol>
-              <div className="path-decoration" aria-hidden="true">
-                <span>✦</span>
-                <Leaf size={36} />
-                <small>
-                  Little by little,
-                  <br />a lot grows.
-                </small>
-              </div>
-            </div>
+                        <strong>{info.label}</strong>
+                        <span className="lesson-detail">{info.detail}</span>
+                        {current && (
+                          <span className="lesson-current-note">
+                            Ready when you are
+                          </span>
+                        )}
+                      </span>
+                      <span className="lesson-entry-action">
+                        {done ? (
+                          <>
+                            <Check size={17} />
+                            <span>Revisit</span>
+                          </>
+                        ) : current ? (
+                          <>
+                            <span>Open lesson</span>
+                            <ArrowRight size={19} />
+                          </>
+                        ) : (
+                          <>
+                            <LockKeyhole size={14} />
+                            <span>Up next</span>
+                          </>
+                        )}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
             <div
               className={"unit-finish " + (completed === 5 ? "is-earned" : "")}
             >
